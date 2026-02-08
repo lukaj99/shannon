@@ -34,6 +34,7 @@ services:
       - ${OUTPUT_DIR:-./audit-logs}:/app/output
       - ${TARGET_REPO:-.}:/target-repo
       - ${BENCHMARKS_BASE:-.}:/benchmarks
+      - ${CLAUDE_CREDENTIALS:-/dev/null}:/tmp/.claude/.credentials.json:ro
     shm_size: 2gb
     ipc: host
     security_opt:

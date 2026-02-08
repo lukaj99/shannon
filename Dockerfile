@@ -129,11 +129,12 @@ RUN npm prune --production && \
 
 # Create directories for session data and ensure proper permissions
 RUN mkdir -p /app/sessions /app/deliverables /app/repos /app/configs && \
-    mkdir -p /tmp/.cache /tmp/.config /tmp/.npm && \
+    mkdir -p /tmp/.cache /tmp/.config /tmp/.npm /tmp/.claude && \
     chmod 777 /app && \
     chmod 777 /tmp/.cache && \
     chmod 777 /tmp/.config && \
     chmod 777 /tmp/.npm && \
+    chmod 777 /tmp/.claude && \
     chown -R pentest:pentest /app
 
 # Switch to non-root user
