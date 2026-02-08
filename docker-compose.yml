@@ -16,6 +16,7 @@ services:
 
   worker:
     build: .
+    user: "${DOCKER_UID:-1000}:${DOCKER_GID:-1000}"
     entrypoint: ["node", "dist/temporal/worker.js"]
     environment:
       - TEMPORAL_ADDRESS=temporal:7233
@@ -23,7 +24,6 @@ services:
       - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL:-}  # Optional: route through claude-code-router
       - ANTHROPIC_AUTH_TOKEN=${ANTHROPIC_AUTH_TOKEN:-}  # Auth token for router
       - ROUTER_DEFAULT=${ROUTER_DEFAULT:-}  # Model name when using router (e.g., "gemini,gemini-2.5-pro")
-      - CLAUDE_CODE_OAUTH_TOKEN=${CLAUDE_CODE_OAUTH_TOKEN:-}
       - CLAUDE_CODE_MAX_OUTPUT_TOKENS=${CLAUDE_CODE_MAX_OUTPUT_TOKENS:-64000}
     depends_on:
       temporal:
@@ -34,7 +34,7 @@ services:
       - ${OUTPUT_DIR:-./audit-logs}:/app/output
       - ${TARGET_REPO:-.}:/target-repo
       - ${BENCHMARKS_BASE:-.}:/benchmarks
-      - ${CLAUDE_CREDENTIALS:-/dev/null}:/tmp/.claude/.credentials.json:ro
+      - ${CLAUDE_HOME:-/tmp/.claude}:/tmp/.claude
     shm_size: 2gb
     ipc: host
     security_opt:
